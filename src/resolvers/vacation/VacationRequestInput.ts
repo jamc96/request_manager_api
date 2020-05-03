@@ -2,21 +2,21 @@ import { Field, InputType, Int } from "type-graphql";
 
 @InputType()
 export class VacationRequestInput {
-    @Field()
-    requestDate: Date
+    @Field({nullable: true, defaultValue: new Date()})
+    date: Date
 
     @Field(() => Int)
+    days: number;
+    
+    @Field()
+    fromDate: Date
+
+    @Field()
+    toDate: Date
+
+    @Field()
     employeeId: number;
 
     @Field()
-    vtype: string;
-
-    @Field(() => Int)
-    vamount: number;
-
-    @Field()
-    vfromDate: Date;
-
-    @Field()
-    vtoDate: Date;
+    typeId: number;
 }

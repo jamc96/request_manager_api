@@ -26,7 +26,9 @@ export class EmployeeResolver {
 
     @Query(() => [Employee])
     async employees(): Promise<Employee[]> {
-        return await Employee.find({relations:["user","vacations"]});
+        return await Employee.find(
+            { relations:["user","vacationsAvailable","vacationRequests"]}
+        );
     }
     
     @Query(() => Employee)
@@ -35,7 +37,7 @@ export class EmployeeResolver {
     ){
         return await Employee.findOne(
             { id:id },
-            { relations:["user","vacations","vacationRequests"] }
+            { relations:["user","vacationsAvailable","vacationRequests"] }
         );
     }
 
@@ -56,7 +58,7 @@ export class EmployeeResolver {
         // create new employee
         const employee = await Employee.create({
             user: userExist,
-            vacations: input.vacations
+            vacationsAvailable: input.vacations
         }).save();
         
         return employee;
