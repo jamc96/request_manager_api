@@ -22,6 +22,7 @@ import { VacationResolver } from "./resolvers/vacation/VacationResolver";
         EmployeeResolver,
         VacationResolver,
       ],
+      dateScalarMode: "isoDate",
       validate: true
     }),
     context: ({ req, res }) => ({ req, res })
