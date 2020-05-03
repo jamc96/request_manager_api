@@ -1,15 +1,16 @@
-import { Resolver, Query, Mutation, Arg } from "type-graphql";
-import { VacationRequest } from "../../entity/VacationRequest";
-import { VacationRequestInput } from "./VacationRequestInput";
-import { VacationType } from "../../entity/VacationType";
-import { VacationTypeInput } from "./VacationTypeInput";
-import { Employee } from "../../entity/Employee";
+import { Resolver, Query, Mutation, Arg, FieldResolver, Root } from "type-graphql";
+import { VacationRequest } from "../entity/VacationRequest";
+import { VacationRequestInput } from "./types/VacationRequestInput";
+import { VacationType } from "../entity/VacationType";
+import { VacationTypeInput } from "./types/VacationTypeInput";
+import { Employee } from "../entity/Employee";
+import { Vacation } from "../entity/Vacation";
 
-@Resolver()
+@Resolver(() => Vacation)
 export class VacationResolver {
     @Query(() => [VacationRequest])
     async vacationRequests() {
-        return await VacationRequest.find({relations: ["employee"]});
+        return await VacationRequest.find();
     }
     @Query(() => [VacationType])
     async vacationTypes() {
@@ -47,4 +48,9 @@ export class VacationResolver {
 
         return vacationRequest;
     }
+    @FieldResolver()
+    async type(@Root() vacation: Vacation) {
+        return await VacationType.findOne({id: vacation.typeId});
+    }
+
 }

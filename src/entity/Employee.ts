@@ -16,16 +16,12 @@ export class Employee extends BaseEntity {
     @JoinColumn()
     user: User;
     
-    @Field(() => Vacation, { nullable: true, defaultValue: []})
-    @OneToMany(() => Vacation, vacation => vacation.employee,{
-        cascade: true,
-    })
+    @Field(() => [Vacation])
+    @OneToMany(() => Vacation, vacation => vacation.employee,{ cascade: ["insert"] })
     vacationsAvailable?: Vacation[];
 
-    @Field(() => VacationRequest, { nullable: true, defaultValue: []})
-    @OneToMany(() => VacationRequest, vrequest => vrequest.employee,{
-        cascade: true,
-    })
+    @Field(() => [VacationRequest])
+    @OneToMany(() => VacationRequest, vrequest => vrequest.employee,{ cascade: ["insert"]})
     vacationRequests?: VacationRequest[]
 
 }

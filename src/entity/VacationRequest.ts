@@ -3,6 +3,7 @@ import { Field, ObjectType, Int } from "type-graphql";
 import { Request } from "./Request";
 import { Employee } from "./Employee";
 import { VacationType } from "./VacationType";
+import { RelationColumn } from "../helper";
 
 @ObjectType()
 @Entity()
@@ -21,12 +22,16 @@ export class VacationRequest extends Request{
     toDate: Date;
 
     @Field(() => Employee)
-    @ManyToOne(() => Employee, employee => employee.vacationRequests)
+    @ManyToOne(() => Employee)
     employee: Employee;
+    @RelationColumn()
+    employeeId: number;
 
     @Field(() => VacationType)
-    @ManyToOne(() => VacationType, type => type.vacationRequests)
+    @ManyToOne(() => VacationType)
     type: VacationType;
+    @RelationColumn()
+    typeId: number;
 
     @Field({ nullable: true})
     @Column({default: "inreview"})

@@ -1,5 +1,5 @@
 import { InputType, Field } from "type-graphql";
-import { VacationInput } from "../vacation/VacationInput";
+import { VacationInput } from "./VacationInput";
 
 @InputType()
 export class EmployeeInput   {

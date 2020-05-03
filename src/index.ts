@@ -3,9 +3,10 @@ import { createConnection, getConnectionOptions } from "typeorm";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
-import { AuthenticationResolver } from "./resolvers/user/AuthenticationResolver";
-import { EmployeeResolver } from "./resolvers/employee/EmployeeResolver";
-import { VacationResolver } from "./resolvers/vacation/VacationResolver";
+import { AuthenticationResolver } from "./resolvers/AuthenticationResolver";
+import { EmployeeResolver } from "./resolvers/EmployeeResolver";
+import { VacationResolver } from "./resolvers/VacationResolver";
+import { VacationRequestResolver } from "./resolvers/VacationRequestResolver";
 
 (async () => {
   const app = express();
@@ -21,6 +22,7 @@ import { VacationResolver } from "./resolvers/vacation/VacationResolver";
         AuthenticationResolver,
         EmployeeResolver,
         VacationResolver,
+        VacationRequestResolver,
       ],
       dateScalarMode: "isoDate",
       validate: true

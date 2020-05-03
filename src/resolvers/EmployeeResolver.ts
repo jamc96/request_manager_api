@@ -1,9 +1,11 @@
-import { Query, Resolver, Arg, Mutation } from "type-graphql";
-import { User } from "../../entity/User";
-import { EmployeeInput } from "./EmployeeInput";
-import { Employee } from "../../entity/Employee";
+import { Query, Resolver, Arg, Mutation, FieldResolver, Root } from "type-graphql";
+import { User } from "../entity/User";
+import { EmployeeInput } from "./types/EmployeeInput";
+import { Employee } from "../entity/Employee";
+import { VacationRequest } from "../entity/VacationRequest";
+import { Vacation } from "../entity/Vacation";
 
-@Resolver()
+@Resolver(() => Employee)
 export class EmployeeResolver {
     @Query(() => [User]) 
     async users(): Promise<User[]> {
@@ -27,7 +29,7 @@ export class EmployeeResolver {
     @Query(() => [Employee])
     async employees(): Promise<Employee[]> {
         return await Employee.find(
-            { relations:["user","vacationsAvailable","vacationRequests"]}
+            { relations:["user"]}
         );
     }
     
@@ -37,12 +39,12 @@ export class EmployeeResolver {
     ){
         return await Employee.findOne(
             { id:id },
-            { relations:["user","vacationsAvailable","vacationRequests"] }
+            { relations:["user"] }
         );
     }
 
     @Mutation(() => Employee)
-    async addEmployee(
+    async createEmployee(
         @Arg("input") input: EmployeeInput
     ) {
         const userExist = await this.userById(input.userId);
@@ -63,4 +65,15 @@ export class EmployeeResolver {
         
         return employee;
     }
+
+    @FieldResolver()
+    async vacationRequests(@Root() employee: Employee) {
+        return await VacationRequest.find({where: { employeeId: employee.id}});
+    }
+
+    @FieldResolver()
+    async vacationsAvailable(@Root() employee: Employee) {
+        return await Vacation.find({where: { employeeId: employee.id}});
+    }
+
 }
