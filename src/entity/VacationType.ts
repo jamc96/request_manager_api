@@ -18,11 +18,9 @@ export class VacationType extends BaseEntity {
     @Column()
     description?: string
 
-    @Field(() => VacationRequest)
     @OneToMany(() => VacationRequest, vrequest => vrequest.type)
     vacationRequests: VacationRequest[];
 
-    @Field(() => Vacation)
     @OneToMany(() => Vacation, vacation => vacation.type)
     vacations: Vacation[];
 
